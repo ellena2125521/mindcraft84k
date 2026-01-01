@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Videos - MediaHub</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
+    <style>
+        .auth-overlay {
+            display: flex !important;
+            position: fixed;
+            z-index: 5000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.98);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .auth-overlay.hidden {
+            display: none !important;
+        }
+
+        .protected-content {
+            display: none;
+        }
+
+        .protected-content.unlocked {
+            display: block;
+        }
+
+        .auth-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+            color: white;
+            border: 3px solid #ffd700;
+        }
+
+        .auth-box h2 {
+            margin: 0 0 10px 0;
+            font-size: 2.2rem;
+            letter-spacing: 2px;
+        }
+
+        .auth-box p {
+            margin: 0 0 30px 0;
+            opacity: 0.95;
+            font-size: 1.1rem;
+        }
+
+        .auth-input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 3px solid #ffd700;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            font-size: 1rem;
+            box-sizing: border-box;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .auth-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+            letter-spacing: normal;
+        }
+
+        .auth-input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 15px;
+            background: #ffd700;
+            color: #333;
+            border: 3px solid #ffed4e;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .auth-btn:hover {
+            background: #ffed4e;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.6);
+        }
+
+        .auth-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .auth-back-btn {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffd700;
+            border: 2px solid #ffd700;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+
+        .auth-back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .auth-back-btn:active {
+            transform: translateY(0px);
+        }
+
+        .auth-error {
+            color: #ff6666;
+            margin-bottom: 20px;
+            display: none;
+            font-weight: bold;
+            font-size: 1rem;
+            padding: 12px;
+            background: rgba(255, 102, 102, 0.2);
+            border-radius: 5px;
+            border: 2px solid #ff6666;
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .video-modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .video-modal.active {
+            display: flex;
+        }
+
+        .video-modal-content {
+            position: relative;
+            background: black;
+            width: 90%;
+            max-width: 1000px;
+            border-radius: 15px;
+            overflow: hidden;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .video-modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .video-modal-header h2 {
+            margin: 0;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            padding: 0;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+        }
+
+        .video-player-container {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: black;
+            flex-shrink: 0;
+        }
+
+        .video-player-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-modal-body {
+            padding: 20px;
+            color: white;
+            background: #1a1a1a;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .gdrive-input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .gdrive-input-group input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #667eea;
+            border-radius: 5px;
+            background: #2a2a2a;
+            color: white;
+            font-size: 0.95rem;
+        }
+
+        .gdrive-input-group input::placeholder {
+            color: #999;
+        }
+
+        .gdrive-input-group button {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .gdrive-input-group button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .video-info {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #444;
+        }
+
+        .video-info h3 {
+            margin-bottom: 10px;
+            color: #ffd700;
+        }
+
+        .video-info p {
+            color: #ccc;
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+
+        .video-info code {
+            background: #2a2a2a;
+            padding: 2px 6px;
+            border-radius: 3px;
+            color: #ffd700;
+            font-family: monospace;
+        }
+
+        @media (max-width: 768px) {
+            .video-modal-content {
+                width: 95%;
+                max-height: 95vh;
+            }
+
+            .gdrive-input-group {
+                flex-direction: column;
+            }
+
+            .video-modal-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .video-player-container {
+                aspect-ratio: 16 / 9;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Authentication Modal -->
+    <div class="auth-overlay" id="authOverlay">
+        <div class="auth-box">
+            <h2>🔐 Access Protected</h2>
+            <p>Enter password to view videos</p>
+            <div class="auth-error" id="authError">Incorrect password!</div>
+            <input type="password" class="auth-input" id="authPassword" placeholder="Enter password" />
+            <button class="auth-btn" onclick="checkPassword()">Unlock</button>
+            <button class="auth-back-btn" onclick="goBack()">← Back</button>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-logo">
+                <a href="index.html">MediaHub</a>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="games-pc.html" class="nav-link">Games (PC)</a></li>
+                <li class="nav-item"><a href="games-apk.html" class="nav-link">Games (APK)</a></li>
+                <li class="nav-item"><a href="apps-pc.html" class="nav-link">Apps (PC)</a></li>
+                <li class="nav-item"><a href="apps-apk.html" class="nav-link">Apps (APK)</a></li>
+                <li class="nav-item"><a href="reels.html" class="nav-link">Reels</a></li>
+                <li class="nav-item active"><a href="videos.html" class="nav-link">Videos</a></li>
+                <li class="nav-item"><a href="profile.html" class="nav-link">Profile</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Protected Content Wrapper -->
+    <div class="protected-content" id="protectedContent">
+
+    <header class="page-header">
+        <h1>Videos (Private)</h1>
+        <p>Exclusive video library available for members only</p>
+    </header>
+
+    <!-- 18+ Warning -->
+    <div style="background: linear-gradient(135deg, #ff6666 0%, #ff3333 100%); color: white; padding: 25px 20px; text-align: center; margin: 30px auto; border-radius: 12px; max-width: 1200px; font-weight: bold; font-size: 1.3rem; box-shadow: 0 8px 25px rgba(255, 51, 51, 0.4); border: 3px solid #ff0000; letter-spacing: 1px;">
+        🔞 ⚠️ WARNING: ONLY 18+ ALLOWED THIS SECTION ⚠️ 🔞
+    </div>
+
+    <main>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 3rem; max-width: 1200px; margin: 0 auto; padding: 20px;">
+            
+            <!-- Video 1 -->
+            <div style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);">
+                <div style="width: 100%; aspect-ratio: 16 / 9; background: #000;">
+                    <iframe 
+                        src="https://drive.google.com/file/d/1eVstwpWMIf-gf6pePVo8PC2q04-ALVj6/preview" 
+                        style="width: 100%; height: 100%; border: none;" 
+                        allow="autoplay" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <div style="padding: 20px;">
+                    <h3 style="color: #333; margin-bottom: 5px;">best 19+minutes virul link</h3>
+                </div>
+            </div>
+
+            <!-- Video 2 -->
+            <div style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);">
+                <div style="width: 100%; aspect-ratio: 16 / 9; background: #000;">
+                    <iframe 
+                        src="https://drive.google.com/file/d/1Jas7gp-xbgs4FVp9hJZZRR3SEse6l1xv/preview" 
+                        style="width: 100%; height: 100%; border: none;" 
+                        allow="autoplay" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <div style="padding: 20px;">
+                    <h3 style="color: #333; margin-bottom: 5px;">best 15+minutes virul link</h3>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>About</h4>
+                <p>Premium video content exclusively for our registered members. Supports Google Drive videos!</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="reels.html">Short Reels</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p>Email: support@mediahub.com</p>
+                <p>Phone: +1 (555) 123-4567</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 MediaHub. All rights reserved.</p>
+        </div>
+    </footer>
+    </div>
+    <!-- End Protected Content Wrapper -->
+
+    <!-- Video Player Modal -->
+    <div id="videoModal" class="video-modal">
+        <div class="video-modal-content">
+            <div class="video-modal-header">
+                <h2 id="videoTitle">Video Player</h2>
+                <button class="close-btn" onclick="closeVideoPlayer()">&times;</button>
+            </div>
+            <div class="video-player-container">
+                <iframe id="videoFrame" src="" allow="autoplay" allowfullscreen></iframe>
+            </div>
+            <div class="video-modal-body">
+                <div class="gdrive-input-group">
+                    <input type="text" id="gdriveInput" placeholder="Paste Google Drive Link (share link or file ID)" />
+                    <button onclick="loadGdriveVideo()">Load Video</button>
+                </div>
+                <div class="video-info">
+                    <h3>📺 How to add Google Drive videos:</h3>
+                    <p><strong>Step 1:</strong> Go to your Google Drive<br>
+                       <strong>Step 2:</strong> Right-click your video → Share<br>
+                       <strong>Step 3:</strong> Copy the share link or file ID<br>
+                       <strong>Step 4:</strong> Paste it above and click "Load Video"<br><br>
+                       <strong>Example formats:</strong><br>
+                       <code>https://drive.google.com/file/d/FILE_ID/view</code><br>
+                       <code>https://drive.google.com/open?id=FILE_ID</code><br>
+                       <code>FILE_ID (just the ID)</code></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        function openVideoPlayer(title, description, gdriveLinkUrl) {
+            document.getElementById('videoTitle').textContent = title;
+            document.getElementById('videoModal').classList.add('active');
+            // Clear previous video
+            document.getElementById('videoFrame').src = '';
+            document.getElementById('gdriveInput').value = '';
+            document.body.style.overflow = 'hidden';
+            
+            // If a Google Drive link is provided, auto-load it
+            if (gdriveLinkUrl) {
+                document.getElementById('gdriveInput').value = gdriveLinkUrl;
+                loadGdriveVideo();
+            }
+        }
+
+        function closeVideoPlayer() {
+            document.getElementById('videoModal').classList.remove('active');
+            document.getElementById('videoFrame').src = '';
+            document.body.style.overflow = 'auto';
+        }
+
+        function loadGdriveVideo() {
+            const input = document.getElementById('gdriveInput').value.trim();
+            if (!input) {
+                alert('Please paste a Google Drive link or file ID');
+                return;
+            }
+
+            // Extract file ID from various Google Drive URL formats
+            let fileId = '';
+            
+            if (input.includes('/file/d/')) {
+                // Format: https://drive.google.com/file/d/FILE_ID/view
+                fileId = input.split('/file/d/')[1].split('/')[0];
+            } else if (input.includes('id=')) {
+                // Format: https://drive.google.com/open?id=FILE_ID
+                fileId = input.split('id=')[1].split('&')[0];
+            } else if (input.match(/^[a-zA-Z0-9_-]+$/)) {
+                // Direct file ID
+                fileId = input;
+            } else {
+                alert('Invalid Google Drive link. Please use a valid format.');
+                return;
+            }
+
+            // Create embed URL for Google Drive
+            const embedUrl = `https://drive.google.com/file/d/${fileId}/preview`;
+            document.getElementById('videoFrame').src = embedUrl;
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('videoModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeVideoPlayer();
+            }
+        });
+
+        // Allow Enter key to load video
+        document.getElementById('gdriveInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                loadGdriveVideo();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeVideoPlayer();
+            }
+        });
+
+        // ===== MAXIMUM SECURITY AUTHENTICATION - REQUIRED EVERY TIME =====
+        const CORRECT_PASSWORD = '12345'; // Change this password
+        
+        // Go back to home page
+        function goBack() {
+            // Clear auth data
+            clearAuthOnLoad();
+            // Redirect to home page
+            window.location.href = 'index.html';
+        }
+        
+        // Clear all auth data on page load - require authentication every time
+        function clearAuthOnLoad() {
+            localStorage.clear();
+            sessionStorage.clear();
+            window.isAuthenticated = false;
+        }
+
+        function generateAuthToken() {
+            return btoa(Math.random().toString() + Date.now());
+        }
+
+        function checkPassword() {
+            const passwordInput = document.getElementById('authPassword');
+            const password = passwordInput.value.trim();
+            const errorElement = document.getElementById('authError');
+            
+            if (password === CORRECT_PASSWORD) {
+                // Generate token for this current session only
+                const authToken = generateAuthToken();
+                sessionStorage.setItem('auth_verified_token', authToken);
+                
+                // Hide auth overlay and show protected content
+                document.getElementById('authOverlay').classList.add('hidden');
+                document.getElementById('protectedContent').classList.add('unlocked');
+                
+                passwordInput.value = '';
+                errorElement.style.display = 'none';
+                
+                // Set authentication flag
+                window.isAuthenticated = true;
+            } else {
+                // Show error with animation
+                errorElement.style.display = 'block';
+                passwordInput.value = '';
+                passwordInput.focus();
+                
+
+                // Reset error message after delay
+                setTimeout(() => {
+                    errorElement.style.display = 'none';
+                }, 3000);
+            }
+        }
+
+        // Allow Enter key for password
+        document.getElementById('authPassword').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+
+        // Prevent direct access to protected content
+        function enforceAuth() {
+            const sessionToken = sessionStorage.getItem('auth_verified_token');
+            const protectedContent = document.getElementById('protectedContent');
+            const authOverlay = document.getElementById('authOverlay');
+            
+            // ALWAYS show auth overlay unless current session token exists
+            if (sessionToken && window.isAuthenticated === true) {
+                authOverlay.classList.add('hidden');
+                protectedContent.classList.add('unlocked');
+            } else {
+                authOverlay.classList.remove('hidden');
+                protectedContent.classList.remove('unlocked');
+                window.isAuthenticated = false;
+                setTimeout(() => {
+                    document.getElementById('authPassword').focus();
+                }, 100);
+            }
+        }
+
+        // Run authentication check on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // CLEAR AUTH DATA FIRST - Require authentication every time
+            clearAuthOnLoad();
+            
+            // Then enforce authentication
+            setTimeout(() => {
+                enforceAuth();
+            }, 100);
+        });
+
+        // Prevent page from being accessible without authentication
+        window.addEventListener('beforeunload', function() {
+            // Clear auth on page leave so next visit requires password again
+            clearAuthOnLoad();
+        });
+
+        // POWERFUL: Check authentication every 500ms - block unauthorized access
+        setInterval(function() {
+            const sessionToken = sessionStorage.getItem('auth_verified_token');
+            
+            if (!sessionToken || window.isAuthenticated !== true) {
+                // Force lock content if authentication is lost
+                document.getElementById('protectedContent').classList.remove('unlocked');
+                document.getElementById('authOverlay').classList.remove('hidden');
+                window.isAuthenticated = false;
+            }
+        }, 500);
+
+        // Prevent F12 developer console tricks - block access
+        window.addEventListener('keydown', function(e) {
+            // Block F12
+            if (e.key === 'F12') {
+                e.preventDefault();
+                return false;
+            }
+            // Block Ctrl+Shift+I
+            if (e.ctrlKey && e.shiftKey && e.key === 'I') {
+                e.preventDefault();
+                return false;
+            }
+            // Block Ctrl+Shift+J
+            if (e.ctrlKey && e.shiftKey && e.key === 'J') {
+                e.preventDefault();
+                return false;
+            }
+            // Block Ctrl+Shift+C
+            if (e.ctrlKey && e.shiftKey && e.key === 'C') {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+    </script>
+    <script src="firebase-config.js"></script>
+</body>
+</html>

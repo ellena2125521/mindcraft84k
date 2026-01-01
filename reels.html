@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reels - MediaHub</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-logo">
+                <a href="index.html">MediaHub</a>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="games-pc.html" class="nav-link">Games (PC)</a></li>
+                <li class="nav-item"><a href="games-apk.html" class="nav-link">Games (APK)</a></li>
+                <li class="nav-item"><a href="apps-pc.html" class="nav-link">Apps (PC)</a></li>
+                <li class="nav-item"><a href="apps-apk.html" class="nav-link">Apps (APK)</a></li>
+                <li class="nav-item active"><a href="reels.html" class="nav-link">Reels</a></li>
+                <li class="nav-item"><a href="videos.html" class="nav-link">Videos</a></li>
+                <li class="nav-item"><a href="profile.html" class="nav-link">Profile</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <h1>Reels</h1>
+        <p>Watch engaging short-form video content</p>
+    </header>
+
+    <main>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 3rem; max-width: 1200px; margin: 0 auto; padding: 20px;">
+            
+            <!-- Reel 1 -->
+            <div style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);">
+                <div style="width: 100%; aspect-ratio: 16 / 9; background: #000;">
+                    <iframe 
+                        src="https://drive.google.com/file/d/1CW-0VhJQtc77myz2wZdK3eeZ2cnUgAXJ/preview" 
+                        style="width: 100%; height: 100%; border: none;" 
+                        allow="autoplay" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <div style="padding: 20px;">
+                    <h3 style="color: #333; margin-bottom: 5px;">Coming Soon</h3>
+                </div>
+            </div>
+
+            <!-- Reel 2 -->
+            <div style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);">
+                <div style="width: 100%; aspect-ratio: 16 / 9; background: #000;">
+                    <iframe 
+                        src="https://drive.google.com/file/d/1BwSNEh391DuENylvTCzgxw_UC1pYzxKf/preview" 
+                        style="width: 100%; height: 100%; border: none;" 
+                        allow="autoplay" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                      <div style="padding: 20px;">
+                    <h3 style="color: #333; margin-bottom: 5px;">NICK</h3>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>About</h4>
+                <p>Discover trending short-form videos from creators around the world.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="videos.html">Full Videos</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p>Email: support@mediahub.com</p>
+                <p>Phone: +1 (555) 123-4567</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 MediaHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="firebase-config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

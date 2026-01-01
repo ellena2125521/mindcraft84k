@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apps (APK) - MediaHub</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-logo">
+                <a href="index.html">MediaHub</a>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="games-pc.html" class="nav-link">Games (PC)</a></li>
+                <li class="nav-item"><a href="games-apk.html" class="nav-link">Games (APK)</a></li>
+                <li class="nav-item"><a href="apps-pc.html" class="nav-link">Apps (PC)</a></li>
+                <li class="nav-item active"><a href="apps-apk.html" class="nav-link">Apps (APK)</a></li>
+                <li class="nav-item"><a href="reels.html" class="nav-link">Reels</a></li>
+                <li class="nav-item"><a href="videos.html" class="nav-link">Videos</a></li>
+                <li class="nav-item"><a href="profile.html" class="nav-link">Profile</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <h1>Apps for Mobile (APK)</h1>
+        <p>Explore useful applications for your Android device</p>
+    </header>
+
+    <main>
+        <div class="content-grid">
+            <div class="content-card">
+                <div class="content-card-image">📱</div>
+                <div class="content-card-body">
+                    <h3>Messages Pro</h3>
+                    <p>Advanced messaging app with encrypted chats</p>
+                    <button class="download-btn">Install APK</button>
+                </div>
+            </div>
+
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>About</h4>
+                <p>Useful and essential apps for your Android smartphone and tablet.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="apps-pc.html">PC Apps</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p>Email: support@mediahub.com</p>
+                <p>Phone: +1 (555) 123-4567</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 MediaHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="firebase-config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
