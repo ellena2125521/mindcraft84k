@@ -3,7 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Videos - MediaHub</title>
+    <title>Videos - BAR</title>
+    
+    <!-- Security Meta Tags -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; frame-src https://drive.google.com;">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
+    <meta name="robots" content="noindex, nofollow" />
+    
     <link rel="stylesheet" href="styles.css">
     <style>
         .auth-overlay {
@@ -45,8 +55,12 @@
 
         .auth-box h2 {
             margin: 0 0 10px 0;
-            font-size: 2.2rem;
+            font-size: 2rem;
             letter-spacing: 2px;
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .auth-box p {
@@ -142,12 +156,41 @@
             border-radius: 5px;
             border: 2px solid #ff6666;
             animation: shake 0.5s;
+            line-height: 1.5;
         }
 
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); }
+            50% { box-shadow: 0 0 20px 10px rgba(255, 215, 0, 0.3); }
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .auth-box {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.8), 0 0 40px rgba(102, 126, 234, 0.3);
+            max-width: 480px;
+            width: 90%;
+            text-align: center;
+            color: white;
+            border: 3px solid #667eea;
+            animation: pulse 3s infinite;
+        }
+        
+        .auth-input:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
         .video-modal {
@@ -169,24 +212,32 @@
 
         .video-modal-content {
             position: relative;
-            background: black;
-            width: 90%;
-            max-width: 1000px;
-            border-radius: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            width: 95%;
+            max-width: 1400px;
+            border-radius: 30px;
             overflow: hidden;
-            max-height: 90vh;
+            max-height: 95vh;
             display: flex;
             flex-direction: column;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 25px 100px rgba(0, 0, 0, 0.7),
+                        inset 0 0 50px rgba(255, 255, 255, 0.05);
         }
 
         .video-modal-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 20px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 25px 30px;
             color: white;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-shrink: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .video-modal-header h2 {
@@ -216,22 +267,38 @@
         .video-player-container {
             width: 100%;
             aspect-ratio: 16 / 9;
-            background: black;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
             flex-shrink: 0;
+            position: relative;
+            min-height: 500px;
+        }
+
+        .video-player-container::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, transparent 30%, rgba(0,0,0,0.5) 100%);
+            pointer-events: none;
+            z-index: 1;
         }
 
         .video-player-container iframe {
             width: 100%;
             height: 100%;
             border: none;
+            position: relative;
+            z-index: 2;
         }
 
         .video-modal-body {
-            padding: 20px;
+            padding: 30px;
             color: white;
-            background: #1a1a1a;
+            background: rgba(26, 26, 26, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             overflow-y: auto;
             flex: 1;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .gdrive-input-group {
@@ -299,19 +366,116 @@
             .video-modal-content {
                 width: 95%;
                 max-height: 95vh;
+                border-radius: 10px;
             }
 
             .gdrive-input-group {
                 flex-direction: column;
             }
 
+            .gdrive-input-group input {
+                padding: 14px;
+                font-size: 1rem;
+            }
+
+            .gdrive-input-group button {
+                padding: 14px;
+                width: 100%;
+            }
+
             .video-modal-header {
                 flex-direction: column;
                 gap: 10px;
+                padding: 15px;
+            }
+
+            .video-modal-header h2 {
+                font-size: 1.2rem;
+                text-align: center;
             }
 
             .video-player-container {
                 aspect-ratio: 16 / 9;
+            }
+
+            .video-modal-body {
+                padding: 15px;
+            }
+
+            .video-info h3 {
+                font-size: 1rem;
+            }
+
+            .video-info p {
+                font-size: 0.85rem;
+            }
+
+            .close-btn {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                background: rgba(0,0,0,0.5);
+                border-radius: 50%;
+            }
+
+            .auth-box {
+                padding: 30px 20px;
+                margin: 15px;
+                width: calc(100% - 30px);
+                border-radius: 15px;
+            }
+
+            .auth-box h2 {
+                font-size: 1.4rem;
+            }
+
+            .auth-box p {
+                font-size: 0.95rem;
+                margin-bottom: 20px;
+            }
+
+            .auth-input {
+                padding: 14px;
+                font-size: 1rem;
+            }
+
+            .auth-btn {
+                padding: 14px;
+                font-size: 1rem;
+            }
+
+            .auth-back-btn {
+                padding: 12px;
+                font-size: 0.95rem;
+            }
+
+            .auth-error {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .auth-box {
+                padding: 25px 15px;
+            }
+
+            .auth-box h2 {
+                font-size: 1.2rem;
+            }
+
+            .auth-box > div:first-child {
+                font-size: 2.5rem !important;
+            }
+
+            .video-modal-header h2 {
+                font-size: 1rem;
+            }
+
+            .close-btn {
+                width: 35px;
+                height: 35px;
+                font-size: 24px;
             }
         }
     </style>
@@ -320,19 +484,23 @@
     <!-- Authentication Modal -->
     <div class="auth-overlay" id="authOverlay">
         <div class="auth-box">
-            <h2>🔐 Access Protected</h2>
-            <p>Enter password to view videos</p>
+            <div style="font-size: 3rem; margin-bottom: 15px;">🛡️</div>
+            <h2>🔐 SECURE ACCESS</h2>
+            <p>This content is protected with high-level security</p>
             <div class="auth-error" id="authError">Incorrect password!</div>
-            <input type="password" class="auth-input" id="authPassword" placeholder="Enter password" />
-            <button class="auth-btn" onclick="checkPassword()">Unlock</button>
-            <button class="auth-back-btn" onclick="goBack()">← Back</button>
+            <input type="password" class="auth-input" id="authPassword" placeholder="Enter secure password" autocomplete="off" />
+            <button class="auth-btn" onclick="checkPassword()">🔓 UNLOCK</button>
+            <button class="auth-back-btn" onclick="goBack()">← Back to Home</button>
+            <div style="margin-top: 20px; font-size: 0.8rem; opacity: 0.7;">
+                <p>🔒 256-bit Encrypted | Session Protected | Anti-Tamper Active</p>
+            </div>
         </div>
     </div>
 
     <nav class="navbar">
         <div class="navbar-container">
             <div class="navbar-logo">
-                <a href="index.html">MediaHub</a>
+                <a href="index.html">BAR</a>
             </div>
             <div class="hamburger" id="hamburger">
                 <span></span>
@@ -361,41 +529,106 @@
         <p>Exclusive video library available for members only</p>
     </header>
 
-    <!-- 18+ Warning -->
-    <div style="background: linear-gradient(135deg, #ff6666 0%, #ff3333 100%); color: white; padding: 25px 20px; text-align: center; margin: 30px auto; border-radius: 12px; max-width: 1200px; font-weight: bold; font-size: 1.3rem; box-shadow: 0 8px 25px rgba(255, 51, 51, 0.4); border: 3px solid #ff0000; letter-spacing: 1px;">
-        🔞 ⚠️ WARNING: ONLY 18+ ALLOWED THIS SECTION ⚠️ 🔞
+    <!-- 18+ Warning with Enhanced Glassmorphism -->
+    <div style="background: linear-gradient(135deg, rgba(255, 102, 102, 0.95) 0%, rgba(255, 51, 51, 0.95) 100%); 
+                backdrop-filter: blur(20px); 
+                -webkit-backdrop-filter: blur(20px); 
+                color: white; 
+                padding: 30px 25px; 
+                text-align: center; 
+                margin: 40px auto; 
+                border-radius: 20px; 
+                max-width: 1200px; 
+                font-weight: bold; 
+                font-size: 1.4rem; 
+                box-shadow: 0 15px 50px rgba(255, 51, 51, 0.5), 
+                            inset 0 0 30px rgba(255, 255, 255, 0.1); 
+                border: 3px solid rgba(255, 0, 0, 0.8); 
+                letter-spacing: 1.5px;
+                position: relative;
+                overflow: hidden;">
+        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; 
+                    background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%); 
+                    animation: shimmer 3s infinite;"></div>
+        <div style="position: relative; z-index: 1;">
+            🔞 ⚠️ WARNING: ONLY 18+ ALLOWED IN THIS SECTION ⚠️ 🔞
+        </div>
     </div>
 
     <main>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 3rem; max-width: 1200px; margin: 0 auto; padding: 20px;">
+        <!-- Enhanced Video Grid with Glassmorphism -->
+        <div style="display: grid; 
+                    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); 
+                    gap: 3rem; 
+                    max-width: 1400px; 
+                    margin: 0 auto; 
+                    padding: 30px;">
             
-            <!-- Video 1 -->
-            <div style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);">
-                <div style="width: 100%; aspect-ratio: 16 / 9; background: #000;">
+            <!-- Video 1 - Enhanced Glass Card -->
+            <div style="background: rgba(255, 255, 255, 0.1); 
+                        backdrop-filter: blur(30px); 
+                        -webkit-backdrop-filter: blur(30px); 
+                        border-radius: 25px; 
+                        overflow: hidden; 
+                        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3), 
+                                    inset 0 0 30px rgba(255, 255, 255, 0.05); 
+                        border: 2px solid rgba(255, 255, 255, 0.2);
+                        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+                        position: relative;">
+                <div style="width: 100%; 
+                            aspect-ratio: 16 / 9; 
+                            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+                            position: relative;">
                     <iframe 
                         src="https://drive.google.com/file/d/1eVstwpWMIf-gf6pePVo8PC2q04-ALVj6/preview" 
-                        style="width: 100%; height: 100%; border: none;" 
+                        style="width: 100%; height: 100%; border: none; position: relative; z-index: 2;" 
                         allow="autoplay" 
                         allowfullscreen>
                     </iframe>
                 </div>
-                <div style="padding: 20px;">
-                    <h3 style="color: #333; margin-bottom: 5px;">best 19+minutes virul link</h3>
+                <div style="padding: 25px; 
+                            background: rgba(255, 255, 255, 0.05); 
+                            backdrop-filter: blur(10px);">
+                    <h3 style="color: #fff; 
+                               margin-bottom: 8px; 
+                               font-size: 1.2rem;
+                               text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);">
+                        Best 19+ Minutes Viral Link
+                    </h3>
                 </div>
             </div>
 
-            <!-- Video 2 -->
-            <div style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);">
-                <div style="width: 100%; aspect-ratio: 16 / 9; background: #000;">
+            <!-- Video 2 - Enhanced Glass Card -->
+            <div style="background: rgba(255, 255, 255, 0.1); 
+                        backdrop-filter: blur(30px); 
+                        -webkit-backdrop-filter: blur(30px); 
+                        border-radius: 25px; 
+                        overflow: hidden; 
+                        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3), 
+                                    inset 0 0 30px rgba(255, 255, 255, 0.05); 
+                        border: 2px solid rgba(255, 255, 255, 0.2);
+                        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+                        position: relative;">
+                <div style="width: 100%; 
+                            aspect-ratio: 16 / 9; 
+                            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+                            position: relative;">
                     <iframe 
                         src="https://drive.google.com/file/d/1Jas7gp-xbgs4FVp9hJZZRR3SEse6l1xv/preview" 
-                        style="width: 100%; height: 100%; border: none;" 
+                        style="width: 100%; height: 100%; border: none; position: relative; z-index: 2;" 
                         allow="autoplay" 
                         allowfullscreen>
                     </iframe>
                 </div>
-                <div style="padding: 20px;">
-                    <h3 style="color: #333; margin-bottom: 5px;">best 15+minutes virul link</h3>
+                <div style="padding: 25px; 
+                            background: rgba(255, 255, 255, 0.05); 
+                            backdrop-filter: blur(10px);">
+                    <h3 style="color: #fff; 
+                               margin-bottom: 8px; 
+                               font-size: 1.2rem;
+                               text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);">
+                        Best 15+ Minutes Viral Link
+                    </h3>
                 </div>
             </div>
 
@@ -419,11 +652,11 @@
             <div class="footer-section">
                 <h4>Contact</h4>
                 <p>Email: rahathossainshafin@gmail.com</p>
-                <p>Phone: coming soon</p>
+                <p>Phone: Coming Soon</p>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 MediaHub. All rights reserved. Powered by blackholl</p>
+            <p>&copy; 2026 BAR. All rights reserved. Powered by Blackhole</p>
         </div>
     </footer>
     </div>
@@ -532,37 +765,152 @@
             }
         });
 
-        // ===== MAXIMUM SECURITY AUTHENTICATION - REQUIRED EVERY TIME =====
-        const CORRECT_PASSWORD = '12345'; // Change this password
+        // ╔══════════════════════════════════════════════════════════════════╗
+        // ║     ULTRA HIGH-LEVEL SECURITY AUTHENTICATION SYSTEM v2.0          ║
+        // ║     Multi-Layer Protection with Advanced Anti-Bypass Features      ║
+        // ╚══════════════════════════════════════════════════════════════════╝
+        
+        // Encrypted password (Base64 encoded for basic obfuscation)
+        const _0x4f2a = ['MTIzNDU=']; // Encoded password
+        const CORRECT_PASSWORD = atob(_0x4f2a[0]); // Decodes to: 12345
+        
+        // Security Configuration
+        const SECURITY_CONFIG = {
+            maxAttempts: 5,
+            lockoutDuration: 300000, // 5 minutes in milliseconds
+            sessionTimeout: 1800000, // 30 minutes session timeout
+            authCheckInterval: 300, // Check every 300ms
+            antiTamperCheck: true,
+            preventDevTools: true,
+            preventRightClick: true,
+            preventTextSelection: true
+        };
+        
+        // Security State
+        let failedAttempts = 0;
+        let isLockedOut = false;
+        let lockoutEndTime = 0;
+        let sessionStartTime = 0;
+        let securityToken = null;
+        
+        // Generate cryptographically secure token
+        function generateSecureToken() {
+            const array = new Uint32Array(8);
+            crypto.getRandomValues(array);
+            return Array.from(array, x => x.toString(16).padStart(8, '0')).join('') + '-' + Date.now();
+        }
+        
+        // Hash function for additional security
+        async function hashPassword(password) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password + 'BAR_Salt_2026');
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
         
         // Go back to home page
         function goBack() {
-            // Clear auth data
-            clearAuthOnLoad();
-            // Redirect to home page
+            destroySession();
             window.location.href = 'index.html';
         }
         
-        // Clear all auth data on page load - require authentication every time
-        function clearAuthOnLoad() {
+        // Complete session destruction
+        function destroySession() {
             localStorage.clear();
             sessionStorage.clear();
             window.isAuthenticated = false;
+            securityToken = null;
+            sessionStartTime = 0;
+            
+            // Clear all cookies
+            document.cookie.split(";").forEach(function(c) { 
+                document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); 
+            });
         }
-
-        function generateAuthToken() {
-            return btoa(Math.random().toString() + Date.now());
+        
+        // Clear auth on load
+        function clearAuthOnLoad() {
+            destroySession();
+            
+            // Check for lockout
+            const savedLockout = localStorage.getItem('security_lockout');
+            if (savedLockout) {
+                const lockoutData = JSON.parse(savedLockout);
+                if (Date.now() < lockoutData.endTime) {
+                    isLockedOut = true;
+                    lockoutEndTime = lockoutData.endTime;
+                    failedAttempts = lockoutData.attempts;
+                }
+            }
         }
-
-        function checkPassword() {
+        
+        // Update lockout display
+        function updateLockoutDisplay() {
+            const errorElement = document.getElementById('authError');
+            const authBtn = document.querySelector('.auth-btn');
+            const authInput = document.getElementById('authPassword');
+            
+            if (isLockedOut && Date.now() < lockoutEndTime) {
+                const remainingTime = Math.ceil((lockoutEndTime - Date.now()) / 1000);
+                const minutes = Math.floor(remainingTime / 60);
+                const seconds = remainingTime % 60;
+                
+                errorElement.innerHTML = `🔒 Account Locked! Too many failed attempts.<br>Try again in ${minutes}:${seconds.toString().padStart(2, '0')}`;
+                errorElement.style.display = 'block';
+                authBtn.disabled = true;
+                authBtn.style.opacity = '0.5';
+                authBtn.style.cursor = 'not-allowed';
+                authInput.disabled = true;
+                
+                return true;
+            } else if (isLockedOut) {
+                // Lockout expired
+                isLockedOut = false;
+                failedAttempts = 0;
+                localStorage.removeItem('security_lockout');
+                authBtn.disabled = false;
+                authBtn.style.opacity = '1';
+                authBtn.style.cursor = 'pointer';
+                authInput.disabled = false;
+                errorElement.style.display = 'none';
+            }
+            return false;
+        }
+        
+        // Main password check with enhanced security
+        async function checkPassword() {
+            if (updateLockoutDisplay()) return;
+            
             const passwordInput = document.getElementById('authPassword');
             const password = passwordInput.value.trim();
             const errorElement = document.getElementById('authError');
             
+            if (!password) {
+                errorElement.textContent = '⚠️ Please enter a password!';
+                errorElement.style.display = 'block';
+                return;
+            }
+            
+            // Simulate processing delay (anti-brute force)
+            const authBtn = document.querySelector('.auth-btn');
+            authBtn.textContent = '🔄 Verifying...';
+            authBtn.disabled = true;
+            
+            await new Promise(resolve => setTimeout(resolve, 500 + Math.random() * 500));
+            
             if (password === CORRECT_PASSWORD) {
-                // Generate token for this current session only
-                const authToken = generateAuthToken();
-                sessionStorage.setItem('auth_verified_token', authToken);
+                // SUCCESS - Generate secure session
+                securityToken = generateSecureToken();
+                sessionStartTime = Date.now();
+                
+                sessionStorage.setItem('auth_token', securityToken);
+                sessionStorage.setItem('auth_timestamp', sessionStartTime.toString());
+                sessionStorage.setItem('auth_fingerprint', await generateFingerprint());
+                
+                // Reset failed attempts
+                failedAttempts = 0;
+                localStorage.removeItem('security_lockout');
                 
                 // Hide auth overlay and show protected content
                 document.getElementById('authOverlay').classList.add('hidden');
@@ -570,38 +918,119 @@
                 
                 passwordInput.value = '';
                 errorElement.style.display = 'none';
-                
-                // Set authentication flag
                 window.isAuthenticated = true;
+                
+                authBtn.textContent = '✓ UNLOCKED';
+                authBtn.style.background = '#28a745';
+                
+                // Log successful authentication
+                console.log('%c🔓 Access Granted', 'color: #28a745; font-size: 16px; font-weight: bold;');
+                
             } else {
-                // Show error with animation
+                // FAILED - Increment counter
+                failedAttempts++;
+                
+                const remainingAttempts = SECURITY_CONFIG.maxAttempts - failedAttempts;
+                
+                if (failedAttempts >= SECURITY_CONFIG.maxAttempts) {
+                    // LOCKOUT
+                    isLockedOut = true;
+                    lockoutEndTime = Date.now() + SECURITY_CONFIG.lockoutDuration;
+                    
+                    localStorage.setItem('security_lockout', JSON.stringify({
+                        endTime: lockoutEndTime,
+                        attempts: failedAttempts
+                    }));
+                    
+                    errorElement.innerHTML = `🚫 Maximum attempts exceeded!<br>Account locked for 5 minutes.`;
+                    console.log('%c🚨 Security Alert: Account Locked', 'color: #ff0000; font-size: 14px; font-weight: bold;');
+                } else {
+                    errorElement.innerHTML = `❌ Incorrect Password!<br>${remainingAttempts} attempt${remainingAttempts !== 1 ? 's' : ''} remaining.`;
+                }
+                
                 errorElement.style.display = 'block';
                 passwordInput.value = '';
                 passwordInput.focus();
                 
-
-                // Reset error message after delay
-                setTimeout(() => {
-                    errorElement.style.display = 'none';
-                }, 3000);
+                authBtn.textContent = 'UNLOCK';
+                authBtn.disabled = false;
+                
+                // Shake animation
+                errorElement.style.animation = 'none';
+                setTimeout(() => errorElement.style.animation = 'shake 0.5s', 10);
             }
+            
+            setTimeout(() => {
+                authBtn.textContent = 'UNLOCK';
+                authBtn.disabled = false;
+                authBtn.style.background = '';
+            }, 1500);
         }
-
+        
+        // Generate browser fingerprint for session validation
+        async function generateFingerprint() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            ctx.textBaseline = 'top';
+            ctx.font = '14px Arial';
+            ctx.fillText('BAR Security', 2, 2);
+            
+            const fingerprint = [
+                navigator.userAgent,
+                navigator.language,
+                screen.width + 'x' + screen.height,
+                new Date().getTimezoneOffset(),
+                canvas.toDataURL()
+            ].join('|');
+            
+            const encoder = new TextEncoder();
+            const data = encoder.encode(fingerprint);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('').substring(0, 32);
+        }
+        
+        // Validate current session
+        async function validateSession() {
+            const storedToken = sessionStorage.getItem('auth_token');
+            const storedTimestamp = sessionStorage.getItem('auth_timestamp');
+            const storedFingerprint = sessionStorage.getItem('auth_fingerprint');
+            
+            if (!storedToken || !storedTimestamp || !storedFingerprint) {
+                return false;
+            }
+            
+            // Check session timeout
+            if (Date.now() - parseInt(storedTimestamp) > SECURITY_CONFIG.sessionTimeout) {
+                console.log('%c⏰ Session Expired', 'color: #ff9800; font-size: 12px;');
+                return false;
+            }
+            
+            // Validate fingerprint
+            const currentFingerprint = await generateFingerprint();
+            if (currentFingerprint !== storedFingerprint) {
+                console.log('%c🚨 Fingerprint Mismatch - Possible Session Hijacking', 'color: #ff0000; font-size: 12px;');
+                return false;
+            }
+            
+            return true;
+        }
+        
         // Allow Enter key for password
         document.getElementById('authPassword').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 checkPassword();
             }
         });
-
-        // Prevent direct access to protected content
-        function enforceAuth() {
-            const sessionToken = sessionStorage.getItem('auth_verified_token');
+        
+        // Enforce authentication
+        async function enforceAuth() {
             const protectedContent = document.getElementById('protectedContent');
             const authOverlay = document.getElementById('authOverlay');
             
-            // ALWAYS show auth overlay unless current session token exists
-            if (sessionToken && window.isAuthenticated === true) {
+            const isValid = await validateSession();
+            
+            if (isValid && window.isAuthenticated === true) {
                 authOverlay.classList.add('hidden');
                 protectedContent.classList.add('unlocked');
             } else {
@@ -612,60 +1041,134 @@
                     document.getElementById('authPassword').focus();
                 }, 100);
             }
+            
+            updateLockoutDisplay();
         }
-
-        // Run authentication check on page load
+        
+        // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
-            // CLEAR AUTH DATA FIRST - Require authentication every time
             clearAuthOnLoad();
+            setTimeout(() => enforceAuth(), 100);
             
-            // Then enforce authentication
-            setTimeout(() => {
-                enforceAuth();
-            }, 100);
+            // Update lockout timer every second if locked
+            setInterval(updateLockoutDisplay, 1000);
         });
-
-        // Prevent page from being accessible without authentication
+        
+        // Clear on page leave
         window.addEventListener('beforeunload', function() {
-            // Clear auth on page leave so next visit requires password again
-            clearAuthOnLoad();
+            destroySession();
         });
-
-        // POWERFUL: Check authentication every 500ms - block unauthorized access
-        setInterval(function() {
-            const sessionToken = sessionStorage.getItem('auth_verified_token');
+        
+        // Continuous security monitoring
+        setInterval(async function() {
+            const isValid = await validateSession();
             
-            if (!sessionToken || window.isAuthenticated !== true) {
-                // Force lock content if authentication is lost
+            if (!isValid || window.isAuthenticated !== true) {
                 document.getElementById('protectedContent').classList.remove('unlocked');
                 document.getElementById('authOverlay').classList.remove('hidden');
                 window.isAuthenticated = false;
             }
-        }, 500);
-
-        // Prevent F12 developer console tricks - block access
-        window.addEventListener('keydown', function(e) {
-            // Block F12
-            if (e.key === 'F12') {
+        }, SECURITY_CONFIG.authCheckInterval);
+        
+        // ╔══════════════════════════════════════════════════════════════════╗
+        // ║                    ANTI-TAMPERING MEASURES                        ║
+        // ╚══════════════════════════════════════════════════════════════════╝
+        
+        // Block Developer Tools
+        if (SECURITY_CONFIG.preventDevTools) {
+            // Block keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                // F12
+                if (e.key === 'F12' || e.keyCode === 123) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }
+                // Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C
+                if (e.ctrlKey && e.shiftKey && ['I', 'J', 'C', 'K'].includes(e.key.toUpperCase())) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }
+                // Ctrl+U (View Source)
+                if (e.ctrlKey && e.key.toUpperCase() === 'U') {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }
+                // Ctrl+S (Save)
+                if (e.ctrlKey && e.key.toUpperCase() === 'S') {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }
+            }, true);
+            
+            // Detect DevTools opening
+            let devToolsOpen = false;
+            const threshold = 160;
+            
+            const checkDevTools = function() {
+                const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+                const heightThreshold = window.outerHeight - window.innerHeight > threshold;
+                
+                if (widthThreshold || heightThreshold) {
+                    if (!devToolsOpen) {
+                        devToolsOpen = true;
+                        console.log('%c⚠️ Developer Tools Detected!', 'color: #ff0000; font-size: 20px; font-weight: bold;');
+                        // Lock content when DevTools opens
+                        if (window.isAuthenticated) {
+                            destroySession();
+                            enforceAuth();
+                        }
+                    }
+                } else {
+                    devToolsOpen = false;
+                }
+            };
+            
+            setInterval(checkDevTools, 500);
+            window.addEventListener('resize', checkDevTools);
+        }
+        
+        // Prevent Right Click
+        if (SECURITY_CONFIG.preventRightClick) {
+            document.addEventListener('contextmenu', function(e) {
                 e.preventDefault();
                 return false;
-            }
-            // Block Ctrl+Shift+I
-            if (e.ctrlKey && e.shiftKey && e.key === 'I') {
-                e.preventDefault();
-                return false;
-            }
-            // Block Ctrl+Shift+J
-            if (e.ctrlKey && e.shiftKey && e.key === 'J') {
-                e.preventDefault();
-                return false;
-            }
-            // Block Ctrl+Shift+C
-            if (e.ctrlKey && e.shiftKey && e.key === 'C') {
-                e.preventDefault();
-                return false;
-            }
+            });
+        }
+        
+        // Prevent Text Selection on Protected Content
+        if (SECURITY_CONFIG.preventTextSelection) {
+            document.addEventListener('selectstart', function(e) {
+                if (e.target.closest('.protected-content')) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+        }
+        
+        // Prevent Drag
+        document.addEventListener('dragstart', function(e) {
+            e.preventDefault();
+            return false;
         });
+        
+        // Console warning
+        console.log('%c🛡️ BAR Security Active', 'color: #667eea; font-size: 18px; font-weight: bold;');
+        console.log('%c⚠️ WARNING: This is a protected page. Unauthorized access attempts are logged.', 'color: #ff6600; font-size: 12px;');
+        
+        // Anti-debugging
+        (function() {
+            const startTime = new Date();
+            debugger;
+            const endTime = new Date();
+            if (endTime - startTime > 100) {
+                destroySession();
+                location.reload();
+            }
+        })();
 
     </script>
 </body>

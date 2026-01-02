@@ -3,14 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OST (PK) - MediaHub</title>
+    <title>OST (PK) - BAR</title>
+    
+    <!-- Security Meta Tags -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; frame-src https://drive.google.com;">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
+    <meta name="robots" content="noindex, nofollow" />
+    
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* OST Grid Responsive - Enhanced Glassmorphism */
+        .ost-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 2.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        .ost-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3),
+                        inset 0 0 30px rgba(255, 255, 255, 0.05);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .ost-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, 
+                rgba(102, 126, 234, 0.1) 0%, 
+                rgba(118, 75, 162, 0.1) 50%,
+                rgba(255, 215, 0, 0.05) 100%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .ost-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 80px rgba(102, 126, 234, 0.4),
+                        inset 0 0 40px rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .ost-card:hover::before {
+            opacity: 1;
+        }
+
+        .ost-video {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+            position: relative;
+            border-radius: 20px 20px 0 0;
+            overflow: hidden;
+        }
+
+        .ost-video::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.3) 100%);
+            pointer-events: none;
+        }
+
+        .ost-video iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            position: relative;
+            z-index: 2;
+        }
+
+        .ost-info {
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            position: relative;
+            z-index: 2;
+        }
+
+        .ost-info h3 {
+            color: #fff;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .ost-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                padding: 15px;
+            }
+
+            .ost-card {
+                border-radius: 15px;
+            }
+
+            .ost-info {
+                padding: 15px;
+            }
+
+            .ost-info h3 {
+                font-size: 0.95rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .ost-grid {
+                padding: 10px;
+                gap: 1rem;
+            }
+
+            .ost-info {
+                padding: 12px;
+            }
+
+            .ost-info h3 {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar">
         <div class="navbar-container">
             <div class="navbar-logo">
-                <a href="index.html">MediaHub</a>
+                <a href="index.html">BAR</a>
             </div>
             <div class="hamburger" id="hamburger">
                 <span></span>
@@ -37,80 +176,131 @@
     </header>
 
     <main>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 3rem; max-width: 1200px; margin: 0 auto; padding: 20px;">
+        <div class="ost-grid">
             
             <!-- OST 1 -->
-            <div style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);">
-                <div style="width: 100%; aspect-ratio: 16 / 9; background: #000;">
+            <div class="ost-card">
+                <div class="ost-video">
                     <iframe 
                         src="https://drive.google.com/file/d/1oS3uQoTd4v3Z8_4OG_QoTCFmiYjI5s8Z/preview" 
-                        style="width: 100%; height: 100%; border: none;" 
                         allow="autoplay" 
                         allowfullscreen>
                     </iframe>
                 </div>
-                <div style="padding: 20px;">
-                    <h3 style="color: #333; margin-bottom: 5px;">Tere Bin | OST | ft. Yumna Zaidi, Wahaj Ali | Shani Arshad | Har Pal Geo | 7th Sky Entertainment</h3>
+                <div class="ost-info">
+                    <h3>Tere Bin | OST | ft. Yumna Zaidi, Wahaj Ali | Shani Arshad | Har Pal Geo | 7th Sky Entertainment</h3>
                 </div>
             </div>
 
             <!-- OST 2 -->
-            <div style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);">
-                <div style="width: 100%; aspect-ratio: 16 / 9; background: #000;">
+            <div class="ost-card">
+                <div class="ost-video">
                     <iframe 
                         src="https://drive.google.com/file/d/1UiLrW1B76oC5nAkmC_eKdEGdr2Ki1Bfm/preview" 
-                        style="width: 100%; height: 100%; border: none;" 
                         allow="autoplay" 
                         allowfullscreen>
                     </iframe>
                 </div>
-                <div style="padding: 20px;">
-                    <h3 style="color: #333; margin-bottom: 5px;">Tera Mera Hai Pyar Amar ❤️ Ishq Murshid - OST - Singer: Ahmed Jahanzeb</h3>
+                <div class="ost-info">
+                    <h3>Tera Mera Hai Pyar Amar ❤️ Ishq Murshid - OST - Singer: Ahmed Jahanzeb</h3>
                 </div>
             </div>
 
             <!-- OST 3 -->
-            <div style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);">
-                <div style="width: 100%; aspect-ratio: 16 / 9; background: #000;">
+            <div class="ost-card">
+                <div class="ost-video">
                     <iframe 
                         src="https://drive.google.com/file/d/15Q0oK1_CEWZhmNduSdV9OWNw-9yU9d09/preview" 
-                        style="width: 100%; height: 100%; border: none;" 
                         allow="autoplay" 
                         allowfullscreen>
                     </iframe>
                 </div>
-                <div style="padding: 20px;">
-                    <h3 style="color: #333; margin-bottom: 5px;">SAJNA DA DIL TORYA | VIDEO SONG - 4K | KABHI MAIN KABHI TUM | MUSTAFA x SHARJEENA</h3>
+                <div class="ost-info">
+                    <h3>SAJNA DA DIL TORYA | VIDEO SONG - 4K | KABHI MAIN KABHI TUM | MUSTAFA x SHARJEENA</h3>
                 </div>
             </div>
 
             <!-- OST 4 -->
-            <div style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);">
-                <div style="width: 100%; aspect-ratio: 16 / 9; background: #000;">
+            <div class="ost-card">
+                <div class="ost-video">
                     <iframe 
                         src="https://drive.google.com/file/d/1qxjlwkjiplevxSmhKL3KcUYbRQXNfuRv/preview" 
-                        style="width: 100%; height: 100%; border: none;" 
                         allow="autoplay" 
                         allowfullscreen>
                     </iframe>
                 </div>
-                <div style="padding: 20px;">
-                    <h3 style="color: #333; margin-bottom: 5px;">Mujhe Pyaar Hua Tha | COMPLETE OST 🎶 Kaifi Khalil | ARY Digital</h3>
+                <div class="ost-info">
+                    <h3>Mujhe Pyaar Hua Tha | COMPLETE OST 🎶 Kaifi Khalil | ARY Digital</h3>
                 </div>
             </div>
 
             <!-- OST 5 -->
-            <div style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);">
-                <div style="width: 100%; aspect-ratio: 16 / 9; background: #000;">
+            <div class="ost-card">
+                <div class="ost-video">
                     <iframe 
                         src="https://drive.google.com/file/d/1Cs7BAiF-a0cZzTqZk7OxIxG2s_hX-Jz5/preview" 
-                        style="width: 100%; height: 100%; border: none;" 
                         allow="autoplay" 
                         allowfullscreen>
                     </iframe>
                 </div>
-                <div style="padding: 20px;">
-                    <h3 style="color: #333; margin-bottom: 5px;">MERI ZINDAGI HAI TU | OST | ASIM AZHAR | SABRI SISTERS | ARY DIGITAL</h3>
+                <div class="ost-info">
+                    <h3>MERI ZINDAGI HAI TU | OST | ASIM AZHAR | SABRI SISTERS | ARY DIGITAL</h3>
+                </div>
+            </div>
+
+            <!-- OST 6 -->
+            <div class="ost-card">
+                <div class="ost-video">
+                    <iframe 
+                        src="https://drive.google.com/file/d/1sxwOv3c1soBqmI8fG4ALe_6rrIwR1vdp/preview" 
+                        allow="autoplay" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="ost-info">
+                    <h3>MAIN HAAR GIYAN _ OST _ NASEEBO LAL & HASSAN ALI _ KABHI MAIN KABHI TUM _ ARY DIGITAL</h3>
+                </div>
+            </div>
+
+            <!-- OST 7 -->
+            <div class="ost-card">
+                <div class="ost-video">
+                    <iframe 
+                        src="https://drive.google.com/file/d/1vKsynleqAyT0AbHHAch6upAmSbFhTl_I/preview" 
+                        allow="autoplay" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="ost-info">
+                    <h3>Kabhi Main Kabhi Tum _ OST _ Music Video _ Fahad Mustafa _ Hania Aamir _ AUR _ ARY Digital</h3>
+                </div>
+            </div>
+
+            <!-- OST 8 -->
+            <div class="ost-card">
+                <div class="ost-video">
+                    <iframe 
+                        src="https://drive.google.com/file/d/1FXY3_AoPJYursgiFDUKuyc4vIVYDp5Fb/preview" 
+                        allow="autoplay" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="ost-info">
+                    <h3>GUZAARISHEIN _ VIDEO SONG - 4K _ PARWARISH _ AINA ASIF x SAMAR JAFRI _ ARY Digital</h3>
+                </div>
+            </div>
+
+            <!-- OST 9 -->
+            <div class="ost-card">
+                <div class="ost-video">
+                    <iframe 
+                        src="https://drive.google.com/file/d/1vwADxYurahoyIqjMg_eb_evJ7W0g9SYt/preview" 
+                        allow="autoplay" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="ost-info">
+                    <h3>Beqarar Yeh Dil - Meem Se Mohabbat [ Full OST ] 💞 Singers_ Asim Azhar & Qirat Haider - HUM TV</h3>
                 </div>
             </div>
 
@@ -134,11 +324,11 @@
             <div class="footer-section">
                 <h4>Contact</h4>
                 <p>Email: rahathossainshafin@gmail.com</p>
-                <p>Phone: coming soon</p>
+                <p>Phone: Coming Soon</p>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 MediaHub. All rights reserved. Powered by blackholl</p>
+            <p>&copy; 2026 BAR. All rights reserved. Powered by Blackhole</p>
         </div>
     </footer>
 

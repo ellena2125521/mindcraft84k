@@ -3,7 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Authorizer - MediaHub</title>
+    <title>Authorizer - BAR</title>
+    
+    <!-- Security Meta Tags -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; frame-src https://drive.google.com;">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
+    <meta name="robots" content="noindex, nofollow" />
+    
     <link rel="stylesheet" href="styles.css">
     <style>
         .authorizer-container {
@@ -145,13 +155,152 @@
             margin: 0;
             font-weight: 500;
         }
+
+        /* Mobile Responsive Styles */
+        @media (max-width: 768px) {
+            .authorizer-container {
+                margin: 20px auto;
+                padding: 0 15px;
+            }
+
+            .authorizer-header {
+                padding: 25px 20px;
+                border-radius: 12px;
+            }
+
+            .profile-pic {
+                width: 100px;
+                height: 100px;
+                font-size: 2rem;
+            }
+
+            .authorizer-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .authorizer-header p {
+                font-size: 0.95rem;
+            }
+
+            .authorized-list {
+                padding: 25px 20px;
+                border-radius: 12px;
+            }
+
+            .authorized-list h2 {
+                font-size: 1.5rem;
+            }
+
+            .authorized-item {
+                padding: 15px;
+            }
+
+            .authorized-item:hover {
+                transform: translateX(5px);
+            }
+
+            .authorized-item h3 {
+                font-size: 1.1rem;
+            }
+
+            .authorized-item p {
+                font-size: 1rem;
+            }
+
+            .service-section {
+                padding: 25px 20px;
+                border-radius: 12px;
+            }
+
+            .service-section h2 {
+                font-size: 1.5rem;
+            }
+
+            .service-badge {
+                padding: 15px;
+            }
+
+            .service-badge h3 {
+                font-size: 1.3rem;
+            }
+
+            .service-badge p {
+                font-size: 1rem;
+            }
+
+            .feature-highlight {
+                padding: 15px;
+            }
+
+            .feature-highlight h4 {
+                font-size: 1rem;
+            }
+
+            .feature-highlight p {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .authorizer-container {
+                margin: 15px auto;
+            }
+
+            .authorizer-header {
+                padding: 20px 15px;
+            }
+
+            .profile-pic {
+                width: 80px;
+                height: 80px;
+                font-size: 1.5rem;
+            }
+
+            .authorizer-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .authorizer-header p {
+                font-size: 0.9rem;
+            }
+
+            .authorized-list {
+                padding: 20px 15px;
+            }
+
+            .authorized-list h2 {
+                font-size: 1.3rem;
+                padding-bottom: 10px;
+            }
+
+            .authorized-item {
+                padding: 12px;
+                margin-bottom: 15px;
+            }
+
+            .authorized-item h3 {
+                font-size: 1rem;
+            }
+
+            .authorized-item p {
+                font-size: 0.9rem;
+            }
+
+            .service-section {
+                padding: 20px 15px;
+            }
+
+            .service-section h2 {
+                font-size: 1.3rem;
+            }
+        }
     </style>
 </head>
 <body>
     <nav class="navbar">
         <div class="navbar-container">
             <div class="navbar-logo">
-                <a href="index.html">MediaHub</a>
+                <a href="index.html">BAR</a>
             </div>
             <div class="hamburger" id="hamburger">
                 <span></span>
@@ -174,14 +323,14 @@
 
     <header class="page-header">
         <h1>Authorizer</h1>
-        <p>Meet the Team Behind MediaHub</p>
+        <p>Meet the Team Behind BAR</p>
     </header>
 
     <main>
         <div class="authorizer-container">
             <div class="authorizer-header">
                 <div class="profile-pic">👨‍💻</div>
-                <h1>MediaHub Team</h1>
+                <h1>BAR Team</h1>
                 <p>A dedicated team of professionals working together to bring you the best entertainment platform with automatic updates and seamless experience.</p>
             </div>
 
@@ -217,13 +366,13 @@
             <div class="service-section">
                 <h2>Services</h2>
                 <div class="service-badge">
-                    <h3>One-Based Website</h3>
-                    <p>Custom tailored solutions for your entertainment needs</p>
+                    <h3>All-in-One Website</h3>
+                    <p>Custom-tailored solutions for all your entertainment needs</p>
                 </div>
 
                 <div class="feature-highlight">
                     <h4>🚀 Fully Automatic Website</h4>
-                    <p>MOST POWERED OR FULLY AUTOMATIC WEBSITE TO AUTO UPDATE ENABLED TO SEE UPDATES AUTOMATIC DONT REQUIRE MANUAL UPDATE</p>
+                    <p>A fully-powered and automatic website with auto-update enabled. See updates automatically without requiring a manual refresh!</p>
                 </div>
 
                 <div style="margin-top: 20px; padding: 20px; background: #e7f3ff; border-left: 5px solid #0066cc; border-radius: 5px;">
@@ -238,7 +387,7 @@
         <div class="footer-content">
             <div class="footer-section">
                 <h4>About</h4>
-                <p>MediaHub is your ultimate entertainment destination with games, apps, videos and more.</p>
+                <p>BAR is your ultimate entertainment destination with games, apps, videos and more.</p>
             </div>
             <div class="footer-section">
                 <h4>Quick Links</h4>
@@ -251,11 +400,11 @@
             <div class="footer-section">
                 <h4>Contact</h4>
                 <p>Email: rahathossainshafin@gmail.com</p>
-                <p>Phone: coming soon</p>
+                <p>Phone: Coming Soon</p>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 MediaHub. All rights reserved. Powered by blackholl</p>
+            <p>&copy; 2026 BAR. All rights reserved. Powered by Blackhole</p>
         </div>
     </footer>
 

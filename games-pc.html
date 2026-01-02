@@ -3,14 +3,261 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Games (PC) - MediaHub</title>
+    <title>Games (PC) - BAR</title>
+    
+    <!-- Security Meta Tags -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; frame-src https://drive.google.com;">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
+    <meta name="robots" content="noindex, nofollow" />
+    
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Games PC - Premium Glassmorphism Design */
+        .games-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .section-title {
+            grid-column: 1 / -1;
+            margin: 40px 0 30px;
+            position: relative;
+        }
+
+        .section-title:first-child {
+            margin-top: 0;
+        }
+
+        .section-title h2 {
+            color: #fff;
+            font-size: 1.8rem;
+            font-weight: 700;
+            padding: 20px 30px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .section-title h2::before {
+            content: '';
+            width: 5px;
+            height: 30px;
+            background: linear-gradient(180deg, #667eea, #764ba2);
+            border-radius: 3px;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .game-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.25);
+            display: flex;
+            flex-direction: column;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+        }
+
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .game-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 25px 70px rgba(102, 126, 234, 0.35);
+            border-color: rgba(102, 126, 234, 0.4);
+        }
+
+        .game-card:hover::before {
+            opacity: 1;
+        }
+
+        .game-card-image {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .game-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .game-card:hover .game-card-image img {
+            transform: scale(1.1);
+        }
+
+        .game-card-image .icon-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .game-card-body {
+            padding: 25px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .game-card-body h3 {
+            color: #fff;
+            margin-bottom: 12px;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .game-card-body .info-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            background: rgba(102, 126, 234, 0.2);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: 20px;
+            color: #a8b4ff;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+            width: fit-content;
+        }
+
+        .game-card-body p {
+            color: rgba(255, 255, 255, 0.75);
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .game-card-body p strong {
+            color: #ffd700;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            margin-top: auto;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
+            filter: brightness(1.1);
+        }
+
+        .download-btn.disabled {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .download-btn.disabled:hover {
+            transform: none;
+            filter: none;
+        }
+
+        @media (max-width: 768px) {
+            .games-container {
+                padding: 20px 15px;
+            }
+
+            .section-title h2 {
+                font-size: 1.4rem;
+                padding: 15px 20px;
+            }
+
+            .games-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .game-card-image {
+                height: 180px;
+            }
+
+            .game-card-body {
+                padding: 20px;
+            }
+
+            .game-card-body h3 {
+                font-size: 1.15rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .section-title h2 {
+                font-size: 1.2rem;
+                padding: 12px 16px;
+            }
+
+            .game-card-image {
+                height: 160px;
+            }
+
+            .game-card-body {
+                padding: 16px;
+            }
+
+            .download-btn {
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar">
         <div class="navbar-container">
             <div class="navbar-logo">
-                <a href="index.html">MediaHub</a>
+                <a href="index.html">BAR</a>
             </div>
             <div class="hamburger" id="hamburger">
                 <span></span>
@@ -37,73 +284,94 @@
     </header>
 
     <main>
-        <div class="content-grid">
-
+        <div class="games-container">
+            
             <!-- ETS-2 MAIN GAME FILE CATEGORY -->
-            <div style="grid-column: 1 / -1; margin-bottom: 20px;">
-                <h2 style="color: #667eea; font-size: 2rem; padding: 20px 0; border-bottom: 3px solid #667eea;">1. ETS-2 MAIN GAME FILE</h2>
+            <div class="section-title">
+                <h2>🎮 ETS-2 Main Game File</h2>
             </div>
 
-            <div class="content-card" style="background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1); display: flex; flex-direction: column;">
-                <div class="content-card-image" style="width: 100%; height: 250px; background: url('https://wallpapercave.com/ets-2-wallpapers') center/cover;">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_8pMwER_n5V0HG_bJ2WMDrCfBujT7RQlcoQ&s" style="width: 100%; height: 100%; object-fit: cover;" alt="ETS-2">
-                </div>
-                <div class="content-card-body" style="padding: 20px; flex: 1; display: flex; flex-direction: column;">
-                    <h3 style="color: #333; margin-bottom: 10px;">ETS-2 MAIN GAME</h3>
-                    <p style="color: #666; margin-bottom: 10px;"><strong>Version:</strong> v1.36.x.x</p>
-                    <p style="color: #666; margin-bottom: 15px;"><strong>Must Read:</strong> Supported Probd map version - 8.5</p>
-                    <a href="https://drive.google.com/file/d/15uJv9siMNK-fAt4rLBtat_ky6-zJ9C-a/view" target="_blank" class="download-btn" style="display: inline-block; background: #667eea; color: white; padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; text-align: center; font-weight: bold; transition: all 0.3s ease; margin-top: auto;">Download</a>
+            <div class="games-grid">
+                <div class="game-card">
+                    <div class="game-card-image">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_8pMwER_n5V0HG_bJ2WMDrCfBujT7RQlcoQ&s" alt="ETS-2" loading="lazy">
+                    </div>
+                    <div class="game-card-body">
+                        <h3>ETS-2 Main Game</h3>
+                        <span class="info-tag">📦 v1.36.x.x</span>
+                        <p><strong>Must Read:</strong> Supported ProBD Map Version - 8.5</p>
+                        <a href="https://drive.google.com/file/d/15uJv9siMNK-fAt4rLBtat_ky6-zJ9C-a/view" target="_blank" class="download-btn">⬇️ Download</a>
+                    </div>
                 </div>
             </div>
 
             <!-- ETS-2 MAP FILE CATEGORY -->
-            <div style="grid-column: 1 / -1; margin-bottom: 20px; margin-top: 40px;">
-                <h2 style="color: #667eea; font-size: 2rem; padding: 20px 0; border-bottom: 3px solid #667eea;">2. ETS-2 MAP FILE</h2>
+            <div class="section-title">
+                <h2>🗺️ ETS-2 Map File</h2>
             </div>
 
-            <div class="content-card" style="background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1); display: flex; flex-direction: column;">
-                <div class="content-card-image" style="width: 100%; height: 250px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                    <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 4rem; color: white;">🗺️</div>
-                </div>
-                <div class="content-card-body" style="padding: 20px; flex: 1; display: flex; flex-direction: column;">
-                    <h3 style="color: #333; margin-bottom: 10px;">ETS-2 PROBD MAP</h3>
-                    <p style="color: #666; margin-bottom: 10px;"><strong>Version:</strong> PROBD 8.5</p>
-                    <p style="color: #666; margin-bottom: 15px;"><strong>Must Read:</strong> Supported ETS-2 Main Game Version - v1.36.x.x</p>
-                    <a href="https://drive.google.com/file/d/1k2kuXhlsc4PTrcO0YolFLiUtSK2mSa5r/view" target="_blank" class="download-btn" style="display: inline-block; background: #667eea; color: white; padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; text-align: center; font-weight: bold; transition: all 0.3s ease; margin-top: auto;">Download</a>
+            <div class="games-grid">
+                <div class="game-card">
+                    <div class="game-card-image">
+                        <img src="https://i.ytimg.com/vi/z81Kr1-CmQY/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLCFV_95twxgXSTd6oO0BxbbivYfaw" alt="ETS-2 PROBD MAP" loading="lazy">
+                    </div>
+                    <div class="game-card-body">
+                        <h3>ETS-2 ProBD Map</h3>
+                        <span class="info-tag">🗺️ PROBD 8.5</span>
+                        <p><strong>Must Read:</strong> Supported ETS-2 Main Game Version - v1.36.x.x</p>
+                        <a href="https://drive.google.com/file/d/1k2kuXhlsc4PTrcO0YolFLiUtSK2mSa5r/view" target="_blank" class="download-btn">⬇️ Download</a>
+                    </div>
                 </div>
             </div>
 
             <!-- ETS-2 PROFILE FILE CATEGORY -->
-            <div style="grid-column: 1 / -1; margin-bottom: 20px; margin-top: 40px;">
-                <h2 style="color: #667eea; font-size: 2rem; padding: 20px 0; border-bottom: 3px solid #667eea;">3. ETS-2 PROFILE FILE</h2>
+            <div class="section-title">
+                <h2>👤 ETS-2 Profile File</h2>
             </div>
 
-            <div class="content-card" style="background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1); display: flex; flex-direction: column;">
-                <div class="content-card-image" style="width: 100%; height: 250px; background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);">
-                    <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 4rem; color: white;">👤</div>
-                </div>
-                <div class="content-card-body" style="padding: 20px; flex: 1; display: flex; flex-direction: column;">
-                    <h3 style="color: #333; margin-bottom: 10px;">ETS-2 PROFILE</h3>
-                    <p style="color: #666; margin-bottom: 10px;"><strong>Game Version:</strong> v1.36.x.x</p>
-                    <p style="color: #666; margin-bottom: 10px;"><strong>Map Version:</strong> 8.5</p>
-                    <p style="color: #666; margin-bottom: 15px;"><strong>Must Read:</strong> Profile use only with mentioned versions</p>
-                    <a href="https://drive.google.com/file/d/17pBoYBNysEe_cuqhkQYxmHfGLXFML8xe/view" target="_blank" class="download-btn" style="display: inline-block; background: #667eea; color: white; padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; text-align: center; font-weight: bold; transition: all 0.3s ease; margin-top: auto;">Download</a>
+            <div class="games-grid">
+                <div class="game-card">
+                    <div class="game-card-image">
+                        <div class="icon-placeholder">👤</div>
+                    </div>
+                    <div class="game-card-body">
+                        <h3>ETS-2 Profile</h3>
+                        <span class="info-tag">🎮 v1.36.x.x</span>
+                        <span class="info-tag">🗺️ Map 8.5</span>
+                        <p><strong>Must Read:</strong> Profile use only with mentioned versions</p>
+                        <a href="https://drive.google.com/file/d/17pBoYBNysEe_cuqhkQYxmHfGLXFML8xe/view" target="_blank" class="download-btn">⬇️ Download</a>
+                    </div>
                 </div>
             </div>
 
             <!-- ETS-2 EXTRA MOD CATEGORY -->
-            <div style="grid-column: 1 / -1; margin-bottom: 20px; margin-top: 40px;">
-                <h2 style="color: #667eea; font-size: 2rem; padding: 20px 0; border-bottom: 3px solid #667eea;">4. ETS-2 EXTRA MOD (INCLUDING BUS, TRAFFIC, ETC)</h2>
+            <div class="section-title">
+                <h2>⚙️ ETS-2 Extra Mods</h2>
             </div>
 
-            <div class="content-card" style="background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1); display: flex; flex-direction: column;">
-                <div class="content-card-image" style="width: 100%; height: 250px; background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);">
-                    <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 4rem; color: #333;">🚀</div>
+            <div class="games-grid">
+                <div class="game-card">
+                    <div class="game-card-image">
+                        <div class="icon-placeholder">⚡</div>
+                    </div>
+                    <div class="game-card-body">
+                        <h3>Low Device Config File</h3>
+                        <span class="info-tag">🎮 ETS-2 V.1.50.x.x</span>
+                        <p>Optimized settings for low-end PCs</p>
+                        <a href="https://drive.google.com/file/d/1TFQbVw1S-9zvYTzybsoTsZMfPYX2eIX-/view" target="_blank" class="download-btn">⬇️ Download</a>
+                    </div>
                 </div>
-                <div class="content-card-body" style="padding: 20px; flex: 1; display: flex; flex-direction: column;">
-                    <h3 style="color: #333; margin-bottom: 10px;">ETS-2 EXTRA MOD</h3>
-                    <p style="color: #666; margin-bottom: 15px; text-align: center; font-weight: bold; font-size: 1.2rem;">COMING SOON</p>
-                    <button class="download-btn" style="display: inline-block; background: #ccc; color: #666; padding: 12px 25px; border: none; border-radius: 5px; cursor: not-allowed; text-decoration: none; text-align: center; font-weight: bold; transition: all 0.3s ease; margin-top: auto;" disabled>Coming Soon</button>
+
+                <div class="game-card">
+                    <div class="game-card-image">
+                        <div class="icon-placeholder">🚌</div>
+                    </div>
+                    <div class="game-card-body">
+                        <h3>Bus + Traffic + Graphics Mod</h3>
+                        <span class="info-tag">🎮 ETS-2 V1.36.x.x</span>
+                        <p>Enhanced traffic, buses, and graphics</p>
+                        <button class="download-btn disabled" disabled>🕐 Coming Soon</button>
+                    </div>
                 </div>
             </div>
 
@@ -127,11 +395,11 @@
             <div class="footer-section">
                 <h4>Contact</h4>
                 <p>Email: rahathossainshafin@gmail.com</p>
-                <p>Phone: coming soon</p>
+                <p>Phone: Coming Soon</p>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 MediaHub. All rights reserved. Powered by blackholl</p>
+            <p>&copy; 2026 BAR. All rights reserved. Powered by Blackhole</p>
         </div>
     </footer>
 

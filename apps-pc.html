@@ -3,14 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apps (PC) - MediaHub</title>
+    <title>Apps (PC) - BAR</title>
+    
+    <!-- Security Meta Tags -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; frame-src https://drive.google.com;">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
+    <meta name="robots" content="noindex, nofollow" />
+    
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Apps Page Mobile Responsive */
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                padding: 0 10px;
+            }
+
+            .content-card {
+                border-radius: 15px;
+            }
+
+            .content-card-image {
+                height: 180px;
+            }
+
+            .content-card-body {
+                padding: 15px;
+            }
+
+            .content-card h3 {
+                font-size: 1.1rem;
+            }
+
+            .content-card p {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .content-card-image {
+                height: 160px;
+            }
+
+            .content-card-body {
+                padding: 12px;
+            }
+
+            .content-card h3 {
+                font-size: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar">
         <div class="navbar-container">
             <div class="navbar-logo">
-                <a href="index.html">MediaHub</a>
+                <a href="index.html">BAR</a>
             </div>
             <div class="hamburger" id="hamburger">
                 <span></span>
@@ -83,11 +137,11 @@
             <div class="footer-section">
                 <h4>Contact</h4>
                 <p>Email: rahathossainshafin@gmail.com</p>
-                <p>Phone: coming soon</p>
+                <p>Phone: Coming Soon</p>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 MediaHub. All rights reserved. Powered by blackholl</p>
+            <p>&copy; 2026 BAR. All rights reserved. Powered by Blackhole</p>
         </div>
     </footer>
 
