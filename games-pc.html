@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Games (PC) - MediaHub</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
 </head>
 <body>
     <nav class="navbar">
@@ -28,7 +25,8 @@
                 <li class="nav-item"><a href="apps-apk.html" class="nav-link">Apps (APK)</a></li>
                 <li class="nav-item"><a href="reels.html" class="nav-link">Reels</a></li>
                 <li class="nav-item"><a href="videos.html" class="nav-link">Videos</a></li>
-                <li class="nav-item"><a href="profile.html" class="nav-link">Profile</a></li>
+                <li class="nav-item"><a href="ost.html" class="nav-link">OST (PK)</a></li>
+                <li class="nav-item"><a href="authorizer.html" class="nav-link">Authorizer</a></li>
             </ul>
         </div>
     </nav>
@@ -40,24 +38,74 @@
 
     <main>
         <div class="content-grid">
-            <div class="content-card">
-                <div class="content-card-image">🎮</div>
-                <div class="content-card-body">
-                    <h3>Adventure Quest</h3>
-                    <p>An immersive adventure game with stunning graphics and engaging gameplay</p>
-                    <button class="download-btn">Download</button>
+
+            <!-- ETS-2 MAIN GAME FILE CATEGORY -->
+            <div style="grid-column: 1 / -1; margin-bottom: 20px;">
+                <h2 style="color: #667eea; font-size: 2rem; padding: 20px 0; border-bottom: 3px solid #667eea;">1. ETS-2 MAIN GAME FILE</h2>
+            </div>
+
+            <div class="content-card" style="background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1); display: flex; flex-direction: column;">
+                <div class="content-card-image" style="width: 100%; height: 250px; background: url('https://wallpapercave.com/ets-2-wallpapers') center/cover;">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_8pMwER_n5V0HG_bJ2WMDrCfBujT7RQlcoQ&s" style="width: 100%; height: 100%; object-fit: cover;" alt="ETS-2">
+                </div>
+                <div class="content-card-body" style="padding: 20px; flex: 1; display: flex; flex-direction: column;">
+                    <h3 style="color: #333; margin-bottom: 10px;">ETS-2 MAIN GAME</h3>
+                    <p style="color: #666; margin-bottom: 10px;"><strong>Version:</strong> v1.36.x.x</p>
+                    <p style="color: #666; margin-bottom: 15px;"><strong>Must Read:</strong> Supported Probd map version - 8.5</p>
+                    <a href="https://drive.google.com/file/d/15uJv9siMNK-fAt4rLBtat_ky6-zJ9C-a/view" target="_blank" class="download-btn" style="display: inline-block; background: #667eea; color: white; padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; text-align: center; font-weight: bold; transition: all 0.3s ease; margin-top: auto;">Download</a>
                 </div>
             </div>
 
-            <div class="content-card">
-                <div class="content-card-image">🏁</div>
-                <div class="content-card-body">
-                    <h3>Speed Racer</h3>
-                    <p>High-speed racing game with realistic physics and multiple tracks</p>
-                    <button class="download-btn">Download</button>
+            <!-- ETS-2 MAP FILE CATEGORY -->
+            <div style="grid-column: 1 / -1; margin-bottom: 20px; margin-top: 40px;">
+                <h2 style="color: #667eea; font-size: 2rem; padding: 20px 0; border-bottom: 3px solid #667eea;">2. ETS-2 MAP FILE</h2>
+            </div>
+
+            <div class="content-card" style="background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1); display: flex; flex-direction: column;">
+                <div class="content-card-image" style="width: 100%; height: 250px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 4rem; color: white;">🗺️</div>
+                </div>
+                <div class="content-card-body" style="padding: 20px; flex: 1; display: flex; flex-direction: column;">
+                    <h3 style="color: #333; margin-bottom: 10px;">ETS-2 PROBD MAP</h3>
+                    <p style="color: #666; margin-bottom: 10px;"><strong>Version:</strong> PROBD 8.5</p>
+                    <p style="color: #666; margin-bottom: 15px;"><strong>Must Read:</strong> Supported ETS-2 Main Game Version - v1.36.x.x</p>
+                    <a href="https://drive.google.com/file/d/1k2kuXhlsc4PTrcO0YolFLiUtSK2mSa5r/view" target="_blank" class="download-btn" style="display: inline-block; background: #667eea; color: white; padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; text-align: center; font-weight: bold; transition: all 0.3s ease; margin-top: auto;">Download</a>
                 </div>
             </div>
 
+            <!-- ETS-2 PROFILE FILE CATEGORY -->
+            <div style="grid-column: 1 / -1; margin-bottom: 20px; margin-top: 40px;">
+                <h2 style="color: #667eea; font-size: 2rem; padding: 20px 0; border-bottom: 3px solid #667eea;">3. ETS-2 PROFILE FILE</h2>
+            </div>
+
+            <div class="content-card" style="background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1); display: flex; flex-direction: column;">
+                <div class="content-card-image" style="width: 100%; height: 250px; background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);">
+                    <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 4rem; color: white;">👤</div>
+                </div>
+                <div class="content-card-body" style="padding: 20px; flex: 1; display: flex; flex-direction: column;">
+                    <h3 style="color: #333; margin-bottom: 10px;">ETS-2 PROFILE</h3>
+                    <p style="color: #666; margin-bottom: 10px;"><strong>Game Version:</strong> v1.36.x.x</p>
+                    <p style="color: #666; margin-bottom: 10px;"><strong>Map Version:</strong> 8.5</p>
+                    <p style="color: #666; margin-bottom: 15px;"><strong>Must Read:</strong> Profile use only with mentioned versions</p>
+                    <a href="https://drive.google.com/file/d/17pBoYBNysEe_cuqhkQYxmHfGLXFML8xe/view" target="_blank" class="download-btn" style="display: inline-block; background: #667eea; color: white; padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; text-align: center; font-weight: bold; transition: all 0.3s ease; margin-top: auto;">Download</a>
+                </div>
+            </div>
+
+            <!-- ETS-2 EXTRA MOD CATEGORY -->
+            <div style="grid-column: 1 / -1; margin-bottom: 20px; margin-top: 40px;">
+                <h2 style="color: #667eea; font-size: 2rem; padding: 20px 0; border-bottom: 3px solid #667eea;">4. ETS-2 EXTRA MOD (INCLUDING BUS, TRAFFIC, ETC)</h2>
+            </div>
+
+            <div class="content-card" style="background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1); display: flex; flex-direction: column;">
+                <div class="content-card-image" style="width: 100%; height: 250px; background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);">
+                    <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 4rem; color: #333;">🚀</div>
+                </div>
+                <div class="content-card-body" style="padding: 20px; flex: 1; display: flex; flex-direction: column;">
+                    <h3 style="color: #333; margin-bottom: 10px;">ETS-2 EXTRA MOD</h3>
+                    <p style="color: #666; margin-bottom: 15px; text-align: center; font-weight: bold; font-size: 1.2rem;">COMING SOON</p>
+                    <button class="download-btn" style="display: inline-block; background: #ccc; color: #666; padding: 12px 25px; border: none; border-radius: 5px; cursor: not-allowed; text-decoration: none; text-align: center; font-weight: bold; transition: all 0.3s ease; margin-top: auto;" disabled>Coming Soon</button>
+                </div>
+            </div>
 
         </div>
     </main>
@@ -78,16 +126,15 @@
             </div>
             <div class="footer-section">
                 <h4>Contact</h4>
-                <p>Email: support@mediahub.com</p>
-                <p>Phone: +1 (555) 123-4567</p>
+                <p>Email: rahathossainshafin@gmail.com</p>
+                <p>Phone: coming soon</p>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2025 MediaHub. All rights reserved.</p>
+            <p>&copy; 2026 MediaHub. All rights reserved. Powered by blackholl</p>
         </div>
     </footer>
 
-    <script src="firebase-config.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
